@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints
+.pytest_cache
+.vscode
+*.egg-info
+*.gv
+
+# venv
+.wavebase
+
+# temporary scripts
+tmp*.py
+
+# tensorboard logs
+logs
+
+notes
