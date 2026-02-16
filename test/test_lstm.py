@@ -1,11 +1,11 @@
 import torch
 from wavebase.specifications import Random
-from wavebase.models.lstm import LSTMLayer, LSTMCell
+from wavebase.lstm import LSTMLayer, LSTMCell
 from helper import TestCase
 from torch.nn import LSTM
 
 
-class TestCustomLSTM(TestCase):  
+class TestCustomLSTM(TestCase):
 
     def test_custom_lstm(self):
         """Assert the LSTMLayer, LSTMCell agree with pytorch native LSTM
@@ -19,7 +19,7 @@ class TestCustomLSTM(TestCase):
         h0 = torch.randn(1, batch, hidden_size)
         c0 = torch.randn(1, batch, hidden_size)
         state = (h0, c0)
-        
+
         # define custom lstm
         custom_lstm = LSTMLayer(LSTMCell, input_size=input_size, hidden_size=hidden_size)
 

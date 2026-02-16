@@ -1,25 +1,25 @@
-from wavebase.data import Sinusoid
-from wavebase.specifications import Spectralstm
-from wavebase.models.lstm import LSTMLayer, LSTMCell
+from wavebase.generators import Sinusoid
+from wavebase.specifications import SpectralLSTM
+from wavebase.lstm import LSTMLayer, LSTMCell
 from helper import TestCase
 
 
-class TestSpectraLSTM(TestCase):   
+class TestSpectralLSTM(TestCase):
 
-    def test_spectra_lstm(self):
-      
+    def test_spectral_lstm(self):
+
         freq_max = 2
 
         hidden_size = 14
-         
-        p = Spectralstm(input_size=1, hidden_size=hidden_size)
-        params = p.lstm_params()        
+
+        p = SpectralLSTM(input_size=1, hidden_size=hidden_size)
+        params = p.lstm_params()
         custom_lstm = LSTMLayer(LSTMCell, **params)
 
         dataset = Sinusoid(
                 n_beats=1,
-                n_samples_per_beat=16, 
-                freq_max=freq_max, 
+                n_samples_per_beat=16,
+                freq_max=freq_max,
                 rps_max=.1
             )
 
