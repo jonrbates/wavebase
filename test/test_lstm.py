@@ -1,7 +1,7 @@
 import torch
 from wavebase.specifications import Random
 from wavebase.lstm import LSTMLayer, LSTMCell
-from helper import TestCase
+from .helper import TestCase
 from torch.nn import LSTM
 
 

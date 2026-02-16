@@ -1,6 +1,6 @@
 import torch
 from wavebase.generators import Sinusoid
-from helper import TestCase
+from .helper import TestCase
 
 
 class TestSinusoidDataset(TestCase):

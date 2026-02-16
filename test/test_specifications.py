@@ -1,7 +1,7 @@
 from wavebase.generators import Sinusoid
 from wavebase.specifications import SpectralLSTM
 from wavebase.lstm import LSTMLayer, LSTMCell
-from helper import TestCase
+from .helper import TestCase
 
 
 class TestSpectralLSTM(TestCase):
