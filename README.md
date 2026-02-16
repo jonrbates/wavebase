@@ -1,20 +1,30 @@
 # wavebase
 
-Wavebase constructs an explicitly parameterized LSTM whose recurrent
-dynamics implement the discrete Fourier transform (DFT) and compute the
-windowed power spectrum of a one-dimensional signal.
+Wavebase studies algorithmic stability in gated RNNs by constructing an LSTM that exactly computes the power spectrum of a 1-dimensional signal.
 
-The repository studies the behavior of this structured solution under
-gradient descent. Starting from a provably correct spectral
-construction, we train the network and observe whether optimization
-preserves the algorithmic structure, deforms it continuously, or
-replaces it with an alternative representation.
+The core object is a hand specified LSTM whose recurrent dynamics implement a bank of oscillators, accumulate signal projections, and output power spectrum features with zero error at initialization. The experiment asks whether gradient descent preserves this exact algorithm, deforms it within an equivalence class, or drifts toward a different representation.
+
+The main benchmark lives in:
+```text
+scripts/benchmark.py
+```
+This runs several encoders on synthetic sinusoidal data and logs both training loss and internal weight structure.
 
 Originally presented as a research poster at Google (Chelsea), February
 2018.
 
-Note: This repository is a research artifact and is not intended as a
-practical replacement for FFT libraries.
+## What to look for
+
+The SpectraLSTM is initialized to an exact solution, so its training loss is flat at zero. Standard LSTMs start with nonzero loss and decrease under optimization.
+
+## Hidden state structure
+
+The constructed LSTM partitions the hidden state into structured blocks implementing oscillation, accumulation, and spectral pooling. The most informative single visualization is the recurrent cell weight matrix at initialization.
+
+<p align="center"> <img src="images/weight_hh_init.png" width="400" alt="weight_hh_cell at initialization"> </p> <p align="center"> Figure 1. Recurrent cell weights (weight_hh_cell) at initialization showing oscillator, accumulator, and spectral blocks. </p>
+
+This matrix serves as a reference algorithmic configuration. Training
+experiments track deviation from this structure.
 
 ## Target computation
 
@@ -45,20 +55,12 @@ exponentials under the identification $\mathbb{C} \cong \mathbb{R}^2$.
 The exact parameterization is defined in [test/test_specifications.py](test/test_specifications.py).
 Hidden size must be a multiple of 7 due to block partitioning.
 
-<img src="images/train_loss.png" alt="train loss for standard lstm and spectral lstm" width="500">
 
-## Structured recurrent matrix
+## Results
+<p align="center"> <img src="images/train_loss.png" width="400" alt="Training loss curves"> </p> <p align="center"> Figure 2. Training loss. SpectraLSTM stays at zero loss, while standard LSTMs decrease from nonzero loss. </p>
 
-<img src="images/weight_hh_init.png" alt="initial hh weights" width="500">
 
-Figure 1. Recurrent cell weight matrix at initialization
-(weight_hh_cell). Block-diagonal regions implement discrete oscillators;
-lower blocks implement accumulation and spectral pooling.
-
-This matrix serves as a reference algorithmic configuration. Training
-experiments track deviation from this structure.
-
-Optimization experiments
+## Optimization experiments
 
 The primary experiment is implemented in:
 ```
