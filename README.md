@@ -19,9 +19,9 @@ practical replacement for FFT libraries.
 ## Target computation
 
 For each window $x_{j:j+T-1}$ of length $T$, the model computes
-$$
-P_j[k] = | \sum_{t=0}^{T-1} x_{j+t} \, e^{-2 \pi i k t/T} |^2, k = 0, …, T-1.
-$$
+$\begin{equation}
+P_j[k] = | \sum_{t=0}^{T-1} x_{j+t} \, e^{-2 \pi i k t/T} |^2, \; k = 0, \ldots, T-1.
+\end{equation}$
 
 The sequence ${P_j[k]}$ forms a spectrogram over non-overlapping windows.
 
@@ -37,19 +37,6 @@ The LSTM hidden state is partitioned into structured blocks:
 -   `sum` — windowed accumulation of Fourier coefficients
 -   `prod` — elementwise squaring of real and imaginary components
 -   `spec` — linear aggregation into $|z_k|^2$
-
-Hidden size must be a multiple of 7 due to block partitioning (gen, sum,
-prod, spec and supporting indices).
-
-Exact construction
-
-The LSTM hidden state is partitioned into structured blocks:
-
--   gen — block-diagonal planar rotations generating Fourier basis
-    vectors
--   sum — windowed accumulation of Fourier coefficients
--   prod — elementwise squaring of real and imaginary components
--   spec — linear aggregation into $|z_k|^2$
 
 The recurrent weight matrix contains explicit rotation subblocks with
 period T, enforcing oscillator dynamics that correspond to complex
@@ -105,11 +92,7 @@ Install dependencies (this project uses PyTorch; see `requirements.txt`):
 pip install -r requirements.txt
 ```
 
-Run the unit tests for data generation:
-
-```bash
-pytest test/test_data_generator.py -q
-```
+See ```wavebase/test``` for specifications and correctness tests.
 
 Run the benchmark experiment:
 
