@@ -19,9 +19,9 @@ practical replacement for FFT libraries.
 ## Target computation
 
 For each window $x_{j:j+T-1}$ of length $T$, the model computes
-$\begin{equation}
+```math
 P_j[k] = | \sum_{t=0}^{T-1} x_{j+t} \, e^{-2 \pi i k t/T} |^2, \; k = 0, \ldots, T-1.
-\end{equation}$
+```
 
 The sequence ${P_j[k]}$ forms a spectrogram over non-overlapping windows.
 
